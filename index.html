@@ -113,15 +113,15 @@
     // animate();
 
     var openFile = function (event) {
-      var input = event.target.file[0]
+      var input = event.target.files[0];
       var reader = new FileReader();
       let filename = input.name;
       let d = filename.split(".");
       let m = filename.split("_");
       if (d[1] == "nrrd") {
         const loader = new NRRDLoader();
-        let nrrdModelName = "./models/nrrd" + filename;
-        loader.load("nrrdModelName", function (volume) {
+        let nrrdModelName = "./models/nrrd/" + filename;
+        loader.load(nrrdModelName, function (volume) {
           //box helper to see the extend of the volume
           const geometry = new THREE.BoxGeometry(
             volume.xLength,
@@ -129,7 +129,7 @@
             volume.zLength
           );
 
-          if(modelCount != 0){
+          if (modelCount != 0){
             scene.remove(box);
             scene.remove(cube);
           }
@@ -137,7 +137,7 @@
           const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
           const cube = new THREE.Mesh(geometry, material);
           cube.visible = false;
-          const box = new THREE.BoxHelper(cube);
+          box = new THREE.BoxHelper(cube);
           scene.add(box);
           box.applyMatrix4(volume.matrix);
           scene.add(cube);
@@ -184,13 +184,13 @@
         });
       }
     
-      if(modelCount ==0){
+      if(modelCount == 0){
           gui = new GUI();
       }else{
         gui.domElement.remove();
-        scence.remove(sliceX.mesh);
-        scence.remove(sliceY.mesh);
-        scence.remove(sliceZ.mesh);
+        scene.remove(sliceX.mesh);
+        scene.remove(sliceY.mesh);
+        scene.remove(sliceZ.mesh);
         gui = new GUI();
       }
       modelCount++;
@@ -358,7 +358,7 @@
     window.onload = function () {
       document
         .getElementById("fileInput")
-        .addEventListener("change", openfile);
+        .addEventListener("change", openFile);
       init();
       animate();
     };
