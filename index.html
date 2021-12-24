@@ -269,6 +269,13 @@
         axes2 = new THREE.AxesHelper(100);
         scene2.add(axes2);
       }
+      window.onload = function () {
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", openFile);
+      init();
+      animate();
+    };
     </script>
     <div id="inset"></div>
   </body>
